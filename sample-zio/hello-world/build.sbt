@@ -4,6 +4,7 @@ import scala.Seq
 
 val scala3Version = "3.2.0"
 val zioVersion = "2.0.0"
+val tapirVersion = "1.1.0"
 
 lazy val root = project
   .in(file("."))
@@ -19,6 +20,8 @@ lazy val root = project
                                 "dev.zio" %% "zio-test" % zioVersion,
                                 "dev.zio" %% "zio-test-sbt" % zioVersion,
                                 "dev.zio" %% "zio-streams" % zioVersion,
-                                "dev.zio" %% "zio-test-junit" % zioVersion
+                                "dev.zio" %% "zio-test-junit" % zioVersion,
+                                "com.softwaremill.sttp.tapir" %% "tapir-core" % tapirVersion,
+                                "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % tapirVersion
                                 )
   )
