@@ -1,7 +1,7 @@
 package com.demandbase
 
 import com.demandbase.ServiceModel.{MyIOService, SampleIOModifyService, StringOperationService}
-import zio.*
+import zio._
 object SampleIOModify extends ZIOAppDefault {
 
 //    val sampleIOModifyService = new SampleIOModifyService(

@@ -1,13 +1,8 @@
 package com.demandbase
 
-
-
-import io.circe.generic.auto._
-//import sttp.tapir.PublicEndpoint
-//import sttp.tapir.generic.auto._
-//import sttp.tapir.json.circe._
+import com.demandbase.ServiceModel.{MyIOService, SampleIOModifyService, StringOperationService}
+import sttp.tapir.PublicEndpoint
 import sttp.tapir.server.ziohttp.ZioHttpInterpreter
-import sttp.tapir.swagger.bundle.SwaggerInterpreter
 import sttp.tapir.ztapir._
 import zhttp.http.HttpApp
 import zhttp.service.Server
@@ -26,12 +21,14 @@ object HelloWorldServer extends ZIOAppDefault {
     }yield output
   }
 
-  val reverseStringEndpoint: PublicEndpoint[String,Throwable,String,Any] =
-    endpoint.get.in("reverse"/path[String]("input")).errorOut(jsonBody[Throwable]).out(stringBody)
+  val reverseStringEndpoint: PublicEndpoint[String,String,String,Any] =
+    endpoint.get.in("reverse"/path[String]("userInput")).errorOut(stringBody).out(stringBody)
 
-  val reverseStringHttp: Http[Any, Throwable, Request, Response] =
-    ZioHttpInterpreter().toHttp(reverseStringEndpoint.zServerLogic(reverseString))
+  val reverseStringHttp =
+    ZioHttpInterpreter().toHttp(reverseStringEndpoint.zServerLogic(userInput=>reverseString(userInput)))
 
   override def run =
-    Server.start(8080, reverseStringHttp).exitCode
+    Server.start(8080, reverseStringHttp).provide(SampleIOModifyService.live,
+      MyIOService.live,
+      StringOperationService.live).exitCode
 }

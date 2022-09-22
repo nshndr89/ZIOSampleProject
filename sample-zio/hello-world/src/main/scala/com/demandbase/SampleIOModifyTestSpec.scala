@@ -1,12 +1,12 @@
 package com.demandbase
 
 import com.demandbase.ServiceModel.{MyIOService, SampleIOModifyService, StringOperationService}
-import zio.*
-import zio.test.*
+import zio._
+import zio.test._
 object SampleIOModifyTestSpec extends ZIOSpecDefault {
 
   val mockedMyIOService = ZIO.succeed(new MyIOService{
-    override def input: Task[String] = {
+    override def input: ZIO[Any,String,String] = {
       ZIO.succeed(
         "nishendra"
       )

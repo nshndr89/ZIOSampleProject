@@ -1,14 +1,14 @@
 package com.demandbase
 
 import scala.io.StdIn
-import zio.*
+import zio._
 
 object ServiceModel {
 
   class MyIOService{
 
-    def input: Task[String] = {
-      ZIO.attempt{
+    def input: ZIO[Any,String,String] = {
+      ZIO.succeed{
         println("Please Enter Some Value:")
         StdIn.readLine()
       }
@@ -20,8 +20,8 @@ object ServiceModel {
   }
 
    class StringOperationService{
-    def reverse(input: String): Task[String] = {
-      ZIO.attempt{
+    def reverse(input: String): ZIO[Any,String,String] = {
+      ZIO.succeed{
         input.reverse
       }
     }
@@ -33,12 +33,19 @@ object ServiceModel {
    }
 
   class SampleIOModifyService(myIo: MyIOService, ops: StringOperationService){
-    def getInputAndPrintInReverse: Task[String] = {
+    def getInputAndPrintInReverse: ZIO[Any,String,String] = {
       for{
         in <- myIo.input
         rev <- ops.reverse(in)
-        _ <- ZIO.succeed(println(s"Reversed value: $rev"))
+        _ <- ZIO.succeed(rev)
       } yield rev
+    }
+
+    def getInputAndPrintInReverse(input: String): ZIO[Any,String,String] = {
+      for{
+        rev <- ops.reverse(input)
+        result <- ZIO.succeed(rev)
+      } yield result
     }
   }
 
