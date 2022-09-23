@@ -6,7 +6,7 @@ import zio.test._
 object SampleIOModifyTestSpec extends ZIOSpecDefault {
 
   val mockedMyIOService = ZIO.succeed(new MyIOService{
-    override def input: ZIO[Any,String,String] = {
+    override def input: ZIO[Any,Throwable,String] = {
       ZIO.succeed(
         "nishendra"
       )

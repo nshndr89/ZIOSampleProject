@@ -1,6 +1,6 @@
 val scala3Version = "2.13.7"
 val zioVersion = "2.0.0"
-val tapirVersion = "1.1.0"
+val tapirVersion = "1.1.1"
 lazy val root = project
   .in(file("."))
   .settings(
@@ -17,6 +17,10 @@ lazy val root = project
                                 "dev.zio" %% "zio-streams" % zioVersion,
                                 "dev.zio" %% "zio-test-junit" % zioVersion,
                                 "com.softwaremill.sttp.tapir" %% "tapir-core" % tapirVersion,
-                                "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % tapirVersion
+                                "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % tapirVersion,
+                                "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % tapirVersion,
+                                "com.softwaremill.sttp.client3" %% "async-http-client-backend-zio" % "3.8.0",
+                                "com.softwaremill.sttp.client3" %% "circe" % "3.8.0",
+                                "io.circe" %% "circe-generic" % "0.14.1"
                                 )
   )

@@ -7,7 +7,7 @@ object ServiceModel {
 
   class MyIOService{
 
-    def input: ZIO[Any,String,String] = {
+    def input: ZIO[Any,Throwable,String] = {
       ZIO.succeed{
         println("Please Enter Some Value:")
         StdIn.readLine()
@@ -20,7 +20,7 @@ object ServiceModel {
   }
 
    class StringOperationService{
-    def reverse(input: String): ZIO[Any,String,String] = {
+    def reverse(input: String): ZIO[Any,Throwable,String] = {
       ZIO.succeed{
         input.reverse
       }
@@ -33,7 +33,7 @@ object ServiceModel {
    }
 
   class SampleIOModifyService(myIo: MyIOService, ops: StringOperationService){
-    def getInputAndPrintInReverse: ZIO[Any,String,String] = {
+    def getInputAndPrintInReverse: ZIO[Any,Throwable,String] = {
       for{
         in <- myIo.input
         rev <- ops.reverse(in)
@@ -41,7 +41,7 @@ object ServiceModel {
       } yield rev
     }
 
-    def getInputAndPrintInReverse(input: String): ZIO[Any,String,String] = {
+    def getInputAndPrintInReverse(input: String): ZIO[Any,Throwable,String] = {
       for{
         rev <- ops.reverse(input)
         result <- ZIO.succeed(rev)
