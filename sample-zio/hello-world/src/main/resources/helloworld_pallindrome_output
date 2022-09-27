@@ -1,0 +1,1 @@
+statusCode: 400, response: {"message":"Pallindrome! no point in reversing","code":400}

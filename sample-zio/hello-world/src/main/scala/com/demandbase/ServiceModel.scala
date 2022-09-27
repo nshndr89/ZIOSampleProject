@@ -1,9 +1,25 @@
 package com.demandbase
 
-import scala.io.StdIn
+import scala.io.{Source, StdIn}
 import zio._
 
 object ServiceModel {
+
+  class FileIO{
+    def readFromFile(fileName: String): Task[Seq[String]] = {
+      ZIO.attempt{
+        val bufferedSource = Source.fromResource(fileName)
+        val inputList: List[String] = bufferedSource.getLines().toList
+        bufferedSource.close()
+        inputList
+      }
+    }
+  }
+
+  object FileIO{
+    def create(): FileIO = new FileIO
+    val live = ZLayer.succeed(create())
+  }
 
   class MyIOService{
 

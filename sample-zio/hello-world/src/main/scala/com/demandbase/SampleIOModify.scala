@@ -1,6 +1,6 @@
 package com.demandbase
 
-import com.demandbase.ServiceModel.{MyIOService, SampleIOModifyService, StringOperationService}
+import com.demandbase.ServiceModel.{FileIO, MyIOService, SampleIOModifyService, StringOperationService}
 import zio._
 object SampleIOModify extends ZIOAppDefault {
 
@@ -25,9 +25,18 @@ object SampleIOModify extends ZIOAppDefault {
      }yield ()
    }
 
-  def run = program.provide(
-    SampleIOModifyService.live,
-    MyIOService.live,
-    StringOperationService.live
+  val readFromFile = for{
+    inputFromFile <- ZIO.service[FileIO]
+    inputForApi <- inputFromFile.readFromFile("/Users/nthakur/Desktop/helloworld_input_success")
+  }yield(println(inputForApi.head))
+
+//  def run = program.provide(
+//    SampleIOModifyService.live,
+//    MyIOService.live,
+//    StringOperationService.live
+//  )
+
+  def run = readFromFile.provide(
+    FileIO.live
   )
 }
